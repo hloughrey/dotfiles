@@ -11,12 +11,14 @@ immodb() {
 	elif [ "$action" == "init" ]
 	then
 		echo "Creating a new IMMO database"
-    immo db stop
-    docker volume rm docker_local-db 
-    immo db start
-    immo -y db init transactional
-    immo -y db init analytical
-    immodb upgrade
+		immo db stop
+		docker volume rm docker_local-db 
+		immo db start
+		immo -y db init transactional
+		immo -y db init analytical
+		immo -y db upgrade transactional
+		immo -y db upgrade analytical
+		psql -h localhost -p 5432 -d transactional -U postgres -c 'ALTER DATABASE transactional SET search_path = public, postgis;'
 	fi
 }
 
