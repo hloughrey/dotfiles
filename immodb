@@ -1,0 +1,23 @@
+#!/bin/bash
+
+action=$1
+
+immodb() {
+	if [ "$action" == "upgrade" ]
+	then
+		echo "Upgrading IMMO database"
+		immo -y db upgrade transactional
+		immo -y db upgrade analytical
+	elif [ "$action" == "init" ]
+	then
+		echo "Creating a new IMMO database"
+    immo db stop
+    docker volume rm docker_local-db 
+    immo db start
+    immo -y db init transactional
+    immo -y db init analytical
+    immodb upgrade
+	fi
+}
+
+immodb
