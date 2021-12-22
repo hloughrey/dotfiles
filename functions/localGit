@@ -1,0 +1,4 @@
+function setLocalGit {
+  git config user.name "Hugh Loughrey"
+  git config user.email hugh.loughrey@gmail.com
+}

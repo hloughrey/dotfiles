@@ -1,0 +1,5 @@
+function defaultCrashMove {
+    mtma
+    cd default-crash-move-folder
+    nodemon --exec propy ~/Documents/code/default-crash-move-folder/20YYiso3nn/GIS/3_Mapping/31_Resources/318_Python_scripts/mapElementLocationsPro.py
+}

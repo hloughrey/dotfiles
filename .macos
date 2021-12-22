@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+osascript -e 'tell application "System Preferences" to quit'
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# Customizations                                                              #
+###############################################################################
+
+echo "Hello $(whoami)! Let's get you set up."
+
+echo "Setting up directories..."
+codeDirectories=(dataminr personal mapaction)
+for directory in "${codeDirectories[@]}"; do
+  if [ ! -d "$HOME/documents/code/$directory" ]; then
+    echo "Creating $directory directory"
+    mkdir -p "$HOME/documents/code/$directory"
+  else
+    echo "Directory $directory already exists"
+  fi
+done
+
+echo "Installing Homebrew..."
+if [[ $(command -v brew) == "" ]]; then
+    echo "Homebrew not found. Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install)"
+else
+    echo "Homebrew already installed...updating..."
+    brew update
+fi
+
+
+echo "Installing oh-my-zsh..."
+if [[ $(command -v zsh) == "" ]]; then
+    echo "oh-my-zsh not found. Installing..."
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+    echo "oh-my-zsh already installed..."
+fi
+
+echo "Installing Homebrew packages..."
+brew install git tmux
+
+echo "Installing node (via n-install)"
+curl -L https://git.io/n-install | bash
+
+echo "node --version: $(node --version)"
+echo "npm --version: $(npm --version)"
+
+echo "Installing a few global npm packages"
+npm install --global yarn nest-cli
+
+echo "Installing Homebrew --cask packages..."
+brew install --cask google-chrome firefox visual-studio-code 1password iterm2 spotify \
+slack docker
+
+echo "Generating a new SSH key for GitHub"
+ssh-keygen -t ed25519 -C "hugh.loughrey@gmail.com" -f ~/.ssh/id_ed25519
+eval "$(ssh-agent -s)"
+touch ~/.ssh/config
+echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+ssh-add -K ~/.ssh/id_ed25519
+echo "run 'pbcopy < ~/.ssh/id_ed25519.pub' and paste that into GitHub"
+
+printf "TODO:\n\
+Restart Terminal.app\n\
+copy ssh key to github
+login to everything \n\
+"
