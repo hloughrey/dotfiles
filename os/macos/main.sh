@@ -4,13 +4,12 @@
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
 
-source $(pwd)/os/utils.sh
-source $(pwd)/os/create_directories.sh
-source $(pwd)/os/homebrew.sh
-source $(pwd)/os/install_oh_my_zsh.sh
-source $(pwd)/os/node.sh
-source $(pwd)/os/git.sh
-ask_for_sudo
+source $(pwd)/utils.sh
+source $(pwd)/create_directories.sh
+source $(pwd)/homebrew.sh
+source $(pwd)/oh_my_zsh.sh
+source $(pwd)/node.sh
+source $(pwd)/git.sh
 
 ###############################################################################
 # Customizations                                                              #

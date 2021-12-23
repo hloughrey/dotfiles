@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-source $(pwd)/os/utils.sh
-source $(pwd)/os/create_directories.sh
-source $(pwd)/os/node.sh
-source $(pwd)/os/git.sh
-
-ask_for_sudo
+source ./utils.sh
+source ./create_directories.sh
+source ./node.sh
+source ./git.sh
 
 ###############################################################################
 # Customizations                                                              #
