@@ -7,3 +7,9 @@ Dotfiles
 
 ## Summary
 This repo contains a collection of useful bash scripts
+
+```bash
+curl -Lk https://github.com/hloughrey/dotfiles/tarball/master -o ~/Downloads/dotfiles.tar.gz
+
+tar -xvf ~/Downloads/dotfiles.tar.gz -C ~/Documents --one-top-level=dotfiles --strip-components=1
+```
